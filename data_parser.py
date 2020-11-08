@@ -17,10 +17,9 @@ class DataParser:
             message_by_parts = message["content"].split(" ")
             # in_message is mentioned tickers
             in_message = set(message_by_parts).intersection(tickers)
-            # TODO: consume with datetime
-            date = message["timestamp"].split("T")[0]
+            date = datetime.strptime(message["timestamp"].split('T')[0], '%Y-%m-%d')
+            # map by date, messages
             ticker_mentions[date] = ticker_mentions.get(date, TickersByDate(date)).add_tickers(in_message, message)
-        print(ticker_mentions)
         return ticker_mentions
 
 

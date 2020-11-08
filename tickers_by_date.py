@@ -2,7 +2,7 @@ from datetime import datetime
 
 
 class TickersByDate:
-    def __init__(self, date: str):
+    def __init__(self, date: datetime):
         self.date = date
         self.mentioned_tickers = dict()
 
@@ -14,8 +14,11 @@ class TickersByDate:
     def get_tickers(self) -> dict:
         return self.mentioned_tickers
 
+    def get_mentioned_tickers(self) -> dict:
+        return self.mentioned_tickers
+
     def __repr__(self):
         return "TickersByDate(" + str(self.date) + " : " + str(self.mentioned_tickers) + ")"
 
     def __str__(self):
-        return "TickersByDate(" + str(self.date) + " : " + str(self.mentioned_tickers) + ")"
+        return self.__repr__()
