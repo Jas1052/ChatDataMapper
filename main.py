@@ -2,12 +2,21 @@ import json
 import constants
 from data_parser import DataParser
 from plot_mentions import plot_mentions
+from datetime import datetime
+from summarizer import get_summary
 
 
 def get_logs():
     dp = DataParser(constants.log_file_path)
     mentions_by_ticker = dp.mentions_by_ticker()
-    plot_mentions(mentions_by_ticker, 'GOOG')
+
+    # summarize by user
+    clustered_messages = dp.messages_by_user('JohnArtman', start_date=datetime(2018, 6, 1), end_date=datetime(2019, 1, 1))
+    summarized_messages = get_summary(clustered_messages, 5)
+    print(summarized_messages)
+
+    # need to convert to id
+    # plot_mentions(mentions_by_ticker, 'GOOG')
     # pretty(mentions_by_ticker)
 
 

@@ -7,12 +7,12 @@ import constants
 
 class DataParser:
     def __init__(self, filepath: str):
-        self.message = self.get_messages(filepath)
+        self.messages = self.get_messages(filepath)
 
     def mentions_by_ticker(self) -> dict:
         ticker_mentions = {}
         tickers = set(gt.get_tickers())
-        for message in self.message:
+        for message in self.messages:
             # split message to look for tickers
             message_by_parts = message["content"].split(" ")
             # in_message is mentioned tickers
@@ -29,6 +29,18 @@ class DataParser:
             data = json.load(json_file)
             return data["messages"]
 
+    def messages_by_user(self, user, start_date: datetime, end_date: datetime) -> str:
+        clustered_message = ""
+        for message in self.messages:
+            date = datetime.strptime(message["timestamp"].split('T')[0], '%Y-%m-%d')
+            if date < start_date:
+                pass
+            if date > end_date:
+                return clustered_message
+            if message['author']['name'] == user:
+                clustered_message += (message['content'] + (". " if message['content'][-1] != '.' else " "))
+        print(clustered_message)
+        return clustered_message
 
     # {
     #   "id": "516598346916429834",
